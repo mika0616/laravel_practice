@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'sqlite'),
 
     /*
     |--------------------------------------------------------------------------
@@ -34,10 +34,12 @@ return [
     */
 
     'connections' => [
+        #最低限必要なのはhost, database, username, password。あとは環境に合わせて変更。
 
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),
+            #使用するデータベース（ファイル名）を環境変数DB_DATABASEに代入
             'database' => env('DB_DATABASE', database_path('database.sqlite')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
@@ -46,13 +48,20 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
+            #IPアドレスまたはドメイン
             'host' => env('DB_HOST', '127.0.0.1'),
+            #ポート番号（MySQLなら3306/postgreSQLなら5432）
             'port' => env('DB_PORT', '3306'),
+            #使用するデータベース（サーバーに用意されているデータベース名）を環境変数DB_DATABASEに代入
             'database' => env('DB_DATABASE', 'forge'),
+            #データベースにアクセスする際のユーザーネームとパスワード
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
+            #使用するソケットファイルを指定するもの
             'unix_socket' => env('DB_SOCKET', ''),
+            #使用するキャラクタエンコーディングの指定。ユニコードを使っているならMySQLなら"utf8mb4"、postgreSQLなら"utf8"にしておく
             'charset' => 'utf8mb4',
+            #これはpostgreSQLにはない項目
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
