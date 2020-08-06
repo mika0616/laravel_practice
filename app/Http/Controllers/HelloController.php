@@ -3,13 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-#ディレクティブforeach
+#@eachディレクティブ
 class HelloController extends Controller{
+	public function index(){
+		$data=[
+			['name'=>'yamada', 'mail'=>'taro@yamada'],
+			['name'=>'tanaka', 'mail'=>'hanako@tanaka'],
+			['name'=>'suzuki', 'mail'=>'satiko@suzuki']
+		];
+		return view('hello.index', ['data'=>$data]);
+	}
+}
+
+
+
+
+#ディレクティブforeach
+/*class HelloController extends Controller{
 	public function index(){
 		$data=['one', 'two', 'three','four'];
 		return view('hello.index', ['data'=>$data]);
 	}
-}
+}*/
 
 
 
