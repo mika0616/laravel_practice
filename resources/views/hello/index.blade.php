@@ -1,3 +1,5 @@
+<h2>test</h2>
+
 @extends('layouts.helloapp')
 
 @section('title', 'Index')
@@ -8,14 +10,25 @@
 @endsection
 
 @section('content')
-	<p>ここが本文のコンテンツです。</p>
-	<p>必要なだけ記述できます。</p>
-	@include('components.message', ['msg_title'=>'OK', 'msg_content'=>'サブビューです' ])
-
-	<ul>
-		@each('components.item', $data, 'item')
-	</ul>
-
+	<table>
+		<thead>
+			<tr>
+				<th>name</th>
+				<th>mail</th>
+				<th>age</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach($items as $item)
+			<tr>
+				<td>{{$item->name}}</td>
+				<td>{{$item->mail}}</td>
+				<td>{{$item->age}}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+	@include('components.message', ['msg_title'=>'DB', 'msg_content'=>'DBクラスの練習'])
 @endsection
 
 @section('footer')

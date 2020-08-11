@@ -1,10 +1,156 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
-#@eachディレクティブ
+
+#クエリビルダを使う
+use Illuminate\Support\Facades\DB;
 class HelloController extends Controller{
+	public function index(Request $request){
+		$items=DB::table('peoples')->get();
+		return view('hello.index', ['items'=> $items]);
+	}
+	public function post(Request $request){
+		$items= DB::select('select * from peoples');
+		return view('hello.index', ['items'=> $items]);
+	}
+	public function add(Request $request){
+		return view('hello.add');
+	}
+	#createメソッドは値の取得、insert実行、リダイレクトでワンセット
+	public function create(Request $request){
+		$param=[
+			'name'=> $request->name,
+			'mail'=> $request->mail,
+			'age'=> $request->age
+		];
+		DB::table('peoples')->insert($param);
+		return redirect('/hello');
+	}
+	public function edit(Request $request){
+		$item=DB::table('peoples')->where('id', $request->id)->first();
+		return view('hello.edit',['form'=>$item]);
+	}
+	public function update(Request $request){
+		$param=[
+			'name'=>$request->name,
+			'mail'=>$request->mail,
+			'age'=>$request->age
+		];
+		DB::table('peoples')->where('id', $request->id)->update($param);
+		return redirect('/hello');
+	}
+	public function del(Request $request){
+		$item=DB::table('peoples')->where('id', $request->id)->first();
+		return view('hello.del',['form'=>$item]);
+	}
+	public function remove(Request $request){
+		DB::table('peoples')->where('id', $request->id)->delete();
+		return redirect('/hello');
+	}
+	public function show(Request $request){
+		$min=$request->min;
+		$max=$request->max;
+		$items=DB::table('peoples')
+			->whereRaw('age>=? and age<=?', [$min, $max])
+			->get();
+		return view('hello.show', ['items'=>$items]);
+	}
+}
+
+
+
+
+#insertによるレコード作成,updateによるレコード更新,deleteによるレコード削除（クエリビルダを使わない）
+/*use Illuminate\Support\Facades\DB;
+class HelloController extends Controller{
+	public function index(Request $request){
+		$items=DB::select('select * from peoples');
+		return view('hello.index', ['items'=> $items]);
+	}
+	#redirectはpost処理になるため、postのfunctionが必要。
+	public function post(Request $request){
+		$items= DB::select('select * from peoples');
+		return view('hello.index', ['items'=> $items]);
+	}
+	public function add(Request $request){
+		return view('hello.add');
+	}
+	#createメソッドは値の取得、insert実行、リダイレクトでワンセット
+	public function create(Request $request){
+		$param=[
+			'name'=> $request->name,
+			'mail'=> $request->mail,
+			'age'=> $request->age
+		];
+		DB::insert('insert into peoples(name, mail, age) values(:name, :mail, :age)', $param);
+		return redirect('/hello');
+		#こう書くと/hello/addのURLのままindexのviewが読み込まれる。望む画面を表示するだけならこれでもできないことはないが、ちゃんとredirectしてrouteから読み込まないとURLは変わらないからダメ。
+		DB::insert('insert into peoples(name, mail, age) values(:name, :mail, :age)', $param);
+		$items= DB::select('select * from peoples');
+		return view('hello.index', ['items'=> $items]);
+	}
+	public function edit(Request $request){
+		$param=['id'=>$request->id];
+		$item=DB::select('select * from peoples where id=:id', $param);
+		#'form'という名前の変数で$itemの最初の配列をテンプレートに渡す
+		return view('hello.edit',['form'=>$item[0]] );
+	}
+	public function update(Request $request){
+		$param=[
+			#idを書き忘れると編集データは保存されない
+			'id'=>$request->id,
+			'name'=>$request->name,
+			'mail'=>$request->mail,
+			'age'=>$request->age
+		];
+		DB::update('update peoples set name = :name, mail = :mail, age = :age where id = :id', $param);
+		return redirect('/hello');
+	}
+	public function del(Request $request){
+		$param=['id'=>$request->id];
+		$item=DB::select('select * from peoples where id=:id', $param);
+		return view('hello.del', ['form'=>$item[0]] );
+	}
+	public function remove(Request $request){
+		$param=['id'=>$request->id];
+		DB::delete('delete from peoples where id=:id', $param);
+		return redirect('/hello');
+	}
+}*/
+
+
+
+
+#パラメータの結合
+/*use Illuminate\Support\Facades\DB;
+class HelloController extends Controller{
+	public function index(Request $request){
+		$params=['id'=>$request->id];
+		$items=DB::select('select * from peoples where id=:id', $params);
+		\Debugbar::addMessage($items);
+		return view('hello.index', ['items'=>$items]);
+	}
+}
+*/
+
+
+
+#DBクラスを使ってみる
+/*use Illuminate\Support\Facades\DB;
+class HelloController extends Controller{
+	public function index(Request $request){
+		$items=DB::select('select * from peoples');
+		\Debugbar::addMessage($items);
+		return view('hello.index', ['items'=>$items]);
+	}
+}*/
+
+
+
+
+#@eachディレクティブ
+/*class HelloController extends Controller{
 	public function index(){
 		$data=[
 			['name'=>'yamada', 'mail'=>'taro@yamada'],
@@ -13,7 +159,7 @@ class HelloController extends Controller{
 		];
 		return view('hello.index', ['data'=>$data]);
 	}
-}
+}*/
 
 
 

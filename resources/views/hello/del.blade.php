@@ -1,0 +1,38 @@
+@extends('layouts.helloapp')
+
+@section('title', 'Delete')
+
+@section('menubar')
+	@parent
+	削除ページ
+@endsection
+
+@section('content')
+	<form action="/hello/del" method="post">
+		<table>
+			@csrf
+			<input type="hidden" name="id" value="{{$form->id}}">
+			<tr>
+				<th>name: </th>
+				<td>{{$form->name}}<td>
+			</tr>
+			<tr>
+				<th>mail:</th>
+				<td>{{$form->mail}}</td>
+			</tr>
+			<tr>
+				<th>age</th>
+				<td>{{$form->age}}</td>
+			</tr>
+			<tr>
+				<th></th>
+				<td><input type="submit" value="delete"> </td>
+			</tr>
+		</table>
+	</form>
+	@include('components.message', ['msg_title'=>'DB', 'msg_content'=>'DBクラスの練習'])
+@endsection
+
+@section('footer')
+	copyright 2020 turano.
+@endsection

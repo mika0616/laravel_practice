@@ -16,9 +16,36 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-#フォームを使ってみる
+#クエリビルダを使う
 Route::get('hello', 'HelloController@index');
 Route::post('hello', 'HelloController@post');
+Route::get('hello/add', 'HelloController@add');
+Route::post('hello/add', 'HelloController@create');
+Route::get('hello/edit', 'HelloController@edit');
+Route::post('hello/edit', 'HelloController@update');
+Route::get('hello/del', 'HelloController@del');
+Route::post('hello/del', 'HelloController@remove');
+Route::get('hello/show', 'HelloController@show');
+
+
+
+
+#insertによるレコード作成,updateによるレコード更新,deleteによるレコード削除
+/*Route::get('hello', 'HelloController@index');
+#redirectがpost処理のためpostのためのrouteが必要
+Route::post('hello', 'HelloController@post');
+Route::get('hello/add', 'HelloController@add');
+Route::post('hello/add', 'HelloController@create');
+Route::get('hello/edit', 'HelloController@edit');
+Route::post('hello/edit', 'HelloController@update');
+Route::get('hello/del', 'HelloController@del');
+Route::post('hello/del', 'HelloController@remove');*/
+
+
+
+#フォームを使ってみる
+/*Route::get('hello', 'HelloController@index');
+Route::post('hello', 'HelloController@post');*/
 
 
 
