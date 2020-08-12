@@ -16,6 +16,28 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+#モデルのリレーション
+Route::get('board', 'BoardController@index');
+Route::get('board/add', 'BoardController@add');
+Route::post('board/add', 'BoardController@create');
+
+
+
+
+#エロクエントを使う
+Route::get('person', 'PersonController@index');
+Route::get('person/find', 'PersonController@find');
+Route::post('person/find', 'PersonController@serch');
+Route::get('person/add', 'PersonController@add');
+Route::post('person/add', 'PersonController@create');
+Route::get('person/edit', 'PersonController@edit');
+Route::post('person/edit', 'PersonController@update');
+Route::get('person/del', 'PersonController@delete');
+Route::post('person/del', 'PersonController@remove');
+
+
+
+
 #クエリビルダを使う
 Route::get('hello', 'HelloController@index');
 Route::post('hello', 'HelloController@post');
